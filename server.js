@@ -1,12 +1,12 @@
 const express = require("express");
 const app = express();
 const connectDB = require("./migrations/index.js");
-const cors = require("cors"); // Import cors middleware\
-// const session = require("express-session");
-// const flash = require("express-flash");
-// const bodyParser = require("body-parser");
+const cors = require("cors");
 
 app.use(cors()); // Use cors middleware
+
+app.use(express.json()); // Parse JSON-encoded bodies
+app.use(express.urlencoded({ extended: true }));
 
 const { routes } = require("./routes/main.js");
 
