@@ -31,7 +31,7 @@ const handleNewUser = async (req, res) => {
 
     // save the new user to the database
     const savedUser = await newUser.save();
-    res.status(201).json({ user: savedUser });
+    res.status(201).json({ user: savedUser, message: "sign-up completed" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "server error" });
