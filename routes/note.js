@@ -7,6 +7,6 @@ router
   .post(noteController.createNewNote)
   .get(noteController.getAllNotes);
 
-router.route("/:id").get(noteController.getAllNotesByUser);
+router.route("/:userId").get(noteController.getAllNotesByUser);
 
 module.exports = router;
