@@ -8,11 +8,11 @@ router
   .get(noteController.getAllNotes);
 
 router
-  .route("/:id")
+  .route("/:_id")
   .get(noteController.getNote)
   .put(noteController.updateNote)
   .delete(noteController.deleteNote);
 
-router.route("/:userId").get(noteController.getAllNotesByUser);
+router.route("/user/:userId").get(noteController.getAllNotesByUser);
 
 module.exports = router;

@@ -26,12 +26,15 @@ const getAllNotes = async (req, res) => {
 
 // GET note according to id
 const getNote = async (req, res) => {
+  const id = req.params._id;
+
   try {
-    const note = await Note.findById(req.params.id);
+    const note = await Note.findById(id); // Remove the { id } and use findById directly
 
     if (!note) {
       return res.status(404).json({ message: "Note not found" });
     }
+
     return res.status(200).json(note);
   } catch (err) {
     return res.status(500).json(err);
@@ -45,7 +48,7 @@ const getAllNotesByUser = async (req, res) => {
   try {
     const notes = await Note.find({ userId });
 
-    if (notes.length === 0) {
+    if (!notes) {
       return res.status(404).json({ message: "Note not found" });
     }
 
@@ -57,7 +60,7 @@ const getAllNotesByUser = async (req, res) => {
 
 // UPDATE note
 const updateNote = async (req, res) => {
-  const noteId = req.params.noteId;
+  const noteId = req.params._id;
 
   try {
     const updatedNote = await Note.findByIdAndUpdate(
@@ -77,8 +80,9 @@ const updateNote = async (req, res) => {
 };
 
 const deleteNote = async (req, res) => {
+  const id = req.params._id;
   try {
-    const note = await Note.findById(req.params.id);
+    const note = await Note.findById(id);
     await note.delete();
     if (!note) {
       return res.status(404).json({ message: "Note not found" });
