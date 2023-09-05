@@ -60,22 +60,29 @@ const getAllNotesByUser = async (req, res) => {
 
 // UPDATE note
 const updateNote = async (req, res) => {
-  const noteId = req.params._id;
+  const id = req.params._id;
+  const { title, content } = req.body; // Assuming you want to update both title and content
 
   try {
-    const updatedNote = await Note.findByIdAndUpdate(
-      noteId,
-      { $set: req.body },
-      { new: true }
+    const note = await Note.findByIdAndUpdate(
+      id,
+      { title, content },
+      { new: true } // This option returns the updated document
     );
 
-    if (!updatedNote) {
+    if (!note) {
       return res.status(404).json({ message: "Note not found" });
     }
 
-    return res.status(200).json(updatedNote);
+    return res
+      .status(200)
+      .json({
+        message: "Note has been updated successfully",
+        updatedNote: note,
+      });
   } catch (err) {
-    return res.status(500).json(err);
+    console.error("Error updating note:", err);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -86,13 +93,14 @@ const deleteNote = async (req, res) => {
     if (!note) {
       return res.status(404).json({ message: "Note not found" });
     }
-    return res.status(200).json({ message: "Note has been deleted successfully" });
+    return res
+      .status(200)
+      .json({ message: "Note has been deleted successfully" });
   } catch (err) {
     console.error("Error deleting note:", err);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-
 
 module.exports = {
   createNewNote,
